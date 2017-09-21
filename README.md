@@ -2,7 +2,7 @@
 
 This is a PyTorch implementation of PAAC from ["Efficient Parallel Methods for Deep Reinforcement Learning"](https://arxiv.org/abs/1705.04862)
 
-![BeamReider](https://github.com/pianomania/paac-pytorch/tree/master/assets/BeamRider.gif)  ![Breakout](https://github.com/pianomania/paac-pytorch/tree/master/assets/Breakout.gif)  ![Pong](https://github.com/pianomania/paac-pytorch/tree/master/assets/Pong.gif)  ![Qbert](https://github.com/pianomania/paac-pytorch/tree/master/assets/Qbert.gif)
+![BeamReider](./assets/BeamRider.gif)  ![Breakout](./assets/Breakout.gif)  ![Pong](./assets/Pong.gif)  ![Qbert](./assets/Qbert.gif)
 # Results
 
 
