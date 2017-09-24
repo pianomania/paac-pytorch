@@ -7,9 +7,15 @@ This is a PyTorch implementation of PAAC from ["Efficient Parallel Methods for D
 
 
 # Usage
+- To Train:
 
 ```
 python main.py --env-name BreakoutDeterministic-v4 --num-workers 4
+```
+
+- To Play:
+```
+python play.py --env-name BreakoutDeterministic-v4
 ```
 
 # Notes
