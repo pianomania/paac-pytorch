@@ -5,8 +5,7 @@ This is a PyTorch implementation of PAAC from ["Efficient Parallel Methods for D
 ![BeamReider](./assets/BeamRider.gif)  ![Breakout](./assets/Breakout.gif)  ![Pong](./assets/Pong.gif)  ![Qbert](./assets/Qbert.gif)
 # Results
 
-![breakout-env0](./assets/breakout/env_0.png = 320X240)
-![breakout-env1](./assets/breakout/env_1.png = 320X240)
+<img src="./assets/breakout/env_0.png" width="320" heigh="240">
 
 # Usage
 - You can train the agent by:
