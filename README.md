@@ -7,13 +7,13 @@ This is a PyTorch implementation of PAAC from ["Efficient Parallel Methods for D
 
 
 # Usage
-- To Train:
+- You can train the agent by:
 
 ```
 python main.py --env-name BreakoutDeterministic-v4 --num-workers 4
 ```
 
-- To Play:
+- You can play the game by:
 ```
 python play.py --env-name BreakoutDeterministic-v4
 ```
