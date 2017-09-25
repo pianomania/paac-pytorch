@@ -19,10 +19,10 @@ python play.py --env-name BreakoutDeterministic-v4
 # Results
 
 <p float="first 4 envs">
-  <img src="./assets/breakout/env_0.png" width="200" heigh="150">
-  <img src="./assets/breakout/env_1.png" width="200" heigh="150">
-  <img src="./assets/breakout/env_2.png" width="200" heigh="150">
-  <img src="./assets/breakout/env_3.png" width="200" heigh="150">
+  <img src="./assets/breakout/env_0.png" width="240" heigh="160">
+  <img src="./assets/breakout/env_1.png" width="240" heigh="160">
+  <img src="./assets/breakout/env_2.png" width="240" heigh="160">
+  <img src="./assets/breakout/env_3.png" width="240" heigh="160">
 </p>
 
 # Notes
