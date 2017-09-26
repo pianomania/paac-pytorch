@@ -17,9 +17,8 @@ python play.py --env-name BreakoutDeterministic-v4
 ```
 
 # Results
-
 <p float="first 4 envs">
-  <img src="./assets/Beamrider.png" width="210" heigh="150">
+  <img src="./assets/BeamRider.png" width="210" heigh="150">
   <img src="./assets/Breakout.png" width="210" heigh="150">
   <img src="./assets/Pong.png" width="210" heigh="150">
   <img src="./assets/Qbert.png" width="210" heigh="150">
