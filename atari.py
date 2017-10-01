@@ -20,7 +20,7 @@ class atari(object):
 
         self.reset()
         self.lives = self.env.env.ale.lives()
-        self.normalize = Normalizer()
+
 
     def reset(self):
         
@@ -29,7 +29,8 @@ class atari(object):
         s = _process_frame84(s)
         self.update_state(s)
         self.lives = self.env.env.ale.lives()
-        
+
+    
     def step(self, action):
 
         _, r, terminal, info = self.env.step(action)
@@ -48,6 +49,7 @@ class atari(object):
             pesudo_terminal = terminal
 
         return self._state, r, pesudo_terminal, terminal
+
 
     def update_state(self, obs):
         self._state[:-1] = self._state[1:]
