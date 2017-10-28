@@ -4,6 +4,13 @@ This is a PyTorch implementation of PAAC from ["Efficient Parallel Methods for D
 
 ![BeamReider](./assets/BeamRider.gif)  ![Breakout](./assets/Breakout.gif)  ![Pong](./assets/Pong.gif)  ![Qbert](./assets/Qbert.gif)
 
+# Environments
+- Ubuntu 16.04
+- PyTorch 0.2.0
+- NumPy 1.13.1
+- gym 0.9.2
+- matplotlib (option)
+
 # Usage
 - You can train the agent by:
 
