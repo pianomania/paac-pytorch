@@ -6,10 +6,11 @@ This is a PyTorch implementation of PAAC from ["Efficient Parallel Methods for D
 
 # Environments
 - Ubuntu 16.04
+- python 3.5.2
 - PyTorch 0.2.0
 - NumPy 1.13.1
 - gym 0.9.2
-- matplotlib (option)
+- matplotlib
 
 # Usage
 - You can train the agent by:

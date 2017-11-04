@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.autograd as autograd
 import torch.optim as optim
-from torch.multiprocessing import Process, Queue
+from torch.multiprocessing import Process, Queue, Pipe
 
 from worker import worker
 from model import paac_ff
@@ -40,18 +40,16 @@ def train(args):
 	optimizer = optim.Adam(model.parameters(), lr=init_lr)
 
 	workers = []
-	wait_queues = []
-	act_queues = []
+	parent_conns = []
+	child_conns = []
 	for i in range(num_workers):
-		wait_queue = Queue()
-		act_queue = Queue()
-		w = worker(i, num_envs, game_name, n_stack,
-                 		  wait_queue, act_queue)
+		parent_conn, child_conn = Pipe()
+		w = worker(i, num_envs, game_name, n_stack, child_conn, args)
 		w.start()
 		workers.append(w)
-		wait_queues.append(wait_queue)
-		act_queues.append(act_queue)
- 
+		parent_conns.append(parent_conn)
+		child_conns.append(child_conn)
+
 	new_s = np.zeros((total_envs, n_stack, image_size, image_size))
 
 	for global_step in range(1, max_train_steps+1):
@@ -78,19 +76,19 @@ def train(args):
 			send_action = np.split(send_action, num_workers)
 
 			# send action and then get state
-			for act_queue, action in zip(act_queues, send_action):
-				act_queue.put(action)
+			for parent_conn, action in zip(parent_conns, send_action):
+				parent_conn.send(action)
+			
+			batch_s, batch_r, batch_mask = [], [], []
+			for parent_conn in parent_conns:
+				s, r, mask = parent_conn.recv()
+				batch_s.append(s)
+				batch_r.append(r)
+				batch_mask.append(mask)
 
-			get_s, get_r, get_mask = [], [], []
-			for wait_queue in wait_queues:
-				s, r, mask = wait_queue.get()
-				get_s.append(s)
-				get_r.append(r)
-				get_mask.append(mask)
-
-			new_s = np.vstack(get_s)
-			r = np.hstack(get_r).clip(-1, 1) # clip reward
-			mask = np.hstack(get_mask)
+			new_s = np.vstack(batch_s)
+			r = np.hstack(batch_r).clip(-1, 1) # clip reward
+			mask = np.hstack(batch_mask)
 
 			share_reward[step].data.copy_(torch.from_numpy(r))
 			share_mask[step].data.copy_(torch.from_numpy(mask))
@@ -114,6 +112,7 @@ def train(args):
 		total_loss = policy_loss + entropy_loss.mul(0.02) +  v_loss*0.5
 		total_loss = total_loss.mul(1/(n_steps))
 
+		# adjust learning rate
 		new_lr = init_lr - (global_step/max_train_steps)*init_lr
 		for param_group in optimizer.param_groups:
 			param_group['lr'] = new_lr
@@ -127,8 +126,8 @@ def train(args):
 		if global_step % 10000 == 0 :
 			torch.save(model.state_dict(), './model/model_%s.pth' % game_name)
 
-	for act_queue in act_queues:
-		act_queue.put(None)
+	for child_conn in child_conns:
+		child_conn.put(None)
 
 	for w in workers:
 		w.join()
