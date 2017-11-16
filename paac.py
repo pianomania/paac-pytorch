@@ -3,7 +3,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.autograd as autograd
 import torch.optim as optim
-from torch.multiprocessing import Process, Queue, Pipe
+from torch.multiprocessing import Process, Pipe
 
 from worker import worker
 from model import paac_ff
@@ -94,7 +94,7 @@ def train(args):
 			share_mask[step].data.copy_(torch.from_numpy(mask))
 
 		x.data.copy_(torch.from_numpy(new_s))
-		v, pi = model(x) # v and pi is volatile
+		v, _ = model(x) # v is volatile
 		R = Variable(v.data.clone())
 		v_loss = 0.0
 		policy_loss = 0.0
@@ -126,8 +126,8 @@ def train(args):
 		if global_step % 10000 == 0 :
 			torch.save(model.state_dict(), './model/model_%s.pth' % game_name)
 
-	for child_conn in child_conns:
-		child_conn.put(None)
+	for parent_conn in parent_conns:
+		parent_conn.send(None)
 
 	for w in workers:
 		w.join()
